@@ -1,7 +1,7 @@
 using Plots
 using DifferentialEquations
 
-
+#2f''' + f'' f = 0
 function balsius_fun!(du, u, p, η)
     f, f1, f2 = u
     du[1] = f1
@@ -9,11 +9,12 @@ function balsius_fun!(du, u, p, η)
     du[3] = -0.5*f2*f
 end
 
-function bc_blasius!(residual, u, p, η) # u[1] is the beginning of the time span, and u[end] is the ending
-    residual[1] = u[1][1]   # the solution at the beginning of the time span should be -pi/2
-    residual[2] = u[1][2]  # the solution at the end of the time span should be pi/2
-    residual[3] = u[end][2] - 1.0
+function bc_blasius!(residual, u, p, η) 
+    residual[1] = u[1][1]   #f(0) = 0
+    residual[2] = u[1][2]  # f'(0) = 0
+    residual[3] = u[end][2] - 1.0 #f'(∞) = 1
 end
+
 ηspan = (0,8)
 
 blasius_problem = TwoPointBVProblem(balsius_fun!, bc_blasius!, [0.0, 0.0, 0.3321], ηspan)
